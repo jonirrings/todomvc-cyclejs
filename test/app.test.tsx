@@ -2,7 +2,7 @@ import { withTime, addPrevState } from 'cyclejs-test-helpers';
 import { assertLooksLike, Wildcard } from 'snabbdom-looks-like';
 import { mockDOMSource, VNode } from '@cycle/dom';
 
-import { App } from '../src/components/app';
+import { App } from '../src/app';
 import { wrapMain } from '../src/drivers';
 
 function fakeLocationObj(path: string): any {

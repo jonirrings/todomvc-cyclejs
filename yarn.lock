@@ -101,16 +101,6 @@
     snabbdom-selector "^4.0.0"
     xstream "11.x"
 
-"@cycle/history@^7.0.0":
-  version "7.0.0"
-  resolved "http://registry.npm.taobao.org/@cycle/history/download/@cycle/history-7.0.0.tgz#59e1e4514154dcb99b767b94f240f0e971fb0e91"
-  integrity sha1-WeHkUUFU3LmbdnuU8kDw6XH7DpE=
-  dependencies:
-    "@cycle/run" "^5.1.0"
-    "@types/history" "^4.7.1"
-    history "4.7.x"
-    xstream "11.x"
-
 "@cycle/isolate@^4.1.0":
   version "4.1.0"
   resolved "http://registry.npm.taobao.org/@cycle/isolate/download/@cycle/isolate-4.1.0.tgz#b40b5cc4e11f7ba36e03974dafba8749613f0e1d"
@@ -136,6 +126,11 @@
     "@cycle/run" "^5.1.0"
     quicktask "1.1.0"
     xstream ">=11"
+
+"@cycle/storage@^5.0.3":
+  version "5.0.3"
+  resolved "http://registry.npm.taobao.org/@cycle/storage/download/@cycle/storage-5.0.3.tgz#9484e9f0b6c44abf5395c9ca5b008d3626e6b64f"
+  integrity sha1-lITp8LbESr9TlcnKWwCNNibmtk8=
 
 "@cycle/time@*", "@cycle/time@^0.16.0":
   version "0.16.0"
@@ -176,11 +171,6 @@
   version "1.3.0"
   resolved "http://registry.npm.taobao.org/@types/anymatch/download/@types/anymatch-1.3.0.tgz#d1d55958d1fccc5527d4aba29fc9c4b942f563ff"
   integrity sha1-0dVZWNH8zFUn1Kuin8nEuUL1Y/8=
-
-"@types/history@^4.7.1":
-  version "4.7.2"
-  resolved "http://registry.npm.taobao.org/@types/history/download/@types/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
-  integrity sha1-DmcOolTVWSQbbus4lPh1SZHnMiA=
 
 "@types/mocha@^5.2.5":
   version "5.2.5"
@@ -3153,17 +3143,6 @@ he@1.2.x:
   resolved "http://registry.npm.taobao.org/he/download/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
 
-history@4.7.x:
-  version "4.7.2"
-  resolved "http://registry.npm.taobao.org/history/download/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
-  integrity sha1-IrXH8xYzxbgCHH9KipVKwTnujVs=
-  dependencies:
-    invariant "^2.2.1"
-    loose-envify "^1.2.0"
-    resolve-pathname "^2.2.0"
-    value-equal "^0.4.0"
-    warning "^3.0.0"
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/hmac-drbg/download/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -3475,7 +3454,7 @@ interpret@^1.0.1, interpret@^1.1.0:
   resolved "http://registry.npm.taobao.org/interpret/download/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
   integrity sha1-ftGxQQxqDg94z5XTuEQMY/eLhhQ=
 
-invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.2.2:
   version "2.2.4"
   resolved "http://registry.npm.taobao.org/invariant/download/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha1-YQ88ksk1nOHbYW5TgAjSP/NRWOY=
@@ -4322,7 +4301,7 @@ loglevelnext@^1.0.1:
     es6-symbol "^3.1.1"
     object.assign "^4.1.0"
 
-loose-envify@^1.0.0, loose-envify@^1.2.0:
+loose-envify@^1.0.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/loose-envify/download/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=
@@ -6204,11 +6183,6 @@ resolve-from@^4.0.0:
   resolved "http://registry.npm.taobao.org/resolve-from/download/resolve-from-4.0.0.tgz#4abcd852ad32dd7baabfe9b40e00a36db5f392e6"
   integrity sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=
 
-resolve-pathname@^2.2.0:
-  version "2.2.0"
-  resolved "http://registry.npm.taobao.org/resolve-pathname/download/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
-  integrity sha1-fpriHtgV/WOrGJre7mTcgx7vqHk=
-
 resolve-url@^0.2.1:
   version "0.2.1"
   resolved "http://registry.npm.taobao.org/resolve-url/download/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
@@ -7414,11 +7388,6 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-value-equal@^0.4.0:
-  version "0.4.0"
-  resolved "http://registry.npm.taobao.org/value-equal/download/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
-  integrity sha1-xb3S9U7gk8BIOdcc4uR1imiQq8c=
-
 variable-diff@1.1.x:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/variable-diff/download/variable-diff-1.1.0.tgz#d2bd5c66db76c13879d96e6a306edc989df978da"
@@ -7452,13 +7421,6 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
-
-warning@^3.0.0:
-  version "3.0.0"
-  resolved "http://registry.npm.taobao.org/warning/download/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
-  integrity sha1-MuU3fLVy3kqwR1O9+IIcAe1gW3w=
-  dependencies:
-    loose-envify "^1.0.0"
 
 watchpack@^1.5.0:
   version "1.6.0"

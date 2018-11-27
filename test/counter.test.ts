@@ -3,7 +3,7 @@ import { withTime, addPrevState } from 'cyclejs-test-helpers';
 import { assertLooksLike, Wildcard } from 'snabbdom-looks-like';
 import { mockDOMSource, VNode, div, span } from '@cycle/dom';
 
-import { Counter } from '../src/components/counter';
+import { Counter } from '../src/routes/counter';
 import { wrapMain } from '../src/drivers';
 
 describe('counter tests', () => {

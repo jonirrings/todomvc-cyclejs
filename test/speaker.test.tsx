@@ -3,7 +3,7 @@ import { withTime, addPrevState } from 'cyclejs-test-helpers';
 import { assertLooksLike, Wildcard } from 'snabbdom-looks-like';
 import { mockDOMSource, VNode } from '@cycle/dom';
 
-import { Speaker } from '../src/components/speaker';
+import { Speaker } from '../src/routes/speaker';
 import { wrapMain } from '../src/drivers';
 
 describe('app tests', () => {

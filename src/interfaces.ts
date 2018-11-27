@@ -2,6 +2,7 @@ import { Stream } from 'xstream';
 import { DOMSource, VNode } from '@cycle/dom';
 import { StateSource, Reducer } from '@cycle/state';
 import { RouterSource, HistoryAction } from 'cyclic-router';
+import { ResponseCollection } from '@cycle/storage';
 
 export { Reducer } from '@cycle/state';
 
@@ -11,6 +12,7 @@ export interface Sources<State> {
     DOM: DOMSource;
     router: RouterSource;
     state: StateSource<State>;
+    storage: ResponseCollection;
 }
 
 export interface Sinks<State> {
