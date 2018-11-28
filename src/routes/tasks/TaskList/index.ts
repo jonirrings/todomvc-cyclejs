@@ -8,10 +8,6 @@ import { Reducer, Sinks, Sources } from '../../../interfaces';
 import isolate from '@cycle/isolate';
 import { List } from './List';
 
-export { State } from './interfaces';
-// THE TASKLIST COMPONENT
-// This is the TaskList component which is being exported below.
-
 export const listLens = {
     get: (state: State) => {
         return state.list.filter(state.filterFn);

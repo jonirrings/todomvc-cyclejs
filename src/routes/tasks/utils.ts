@@ -1,3 +1,5 @@
+import { Stream } from 'xstream';
+
 export const ENTER_KEY = 13;
 export const ESC_KEY = 27;
 
@@ -29,4 +31,8 @@ export function checkBoxExtractor(evt: Event): boolean {
         return target.checked;
     }
     return false;
+}
+
+export function redirect(link$: Stream<any>, path: string): Stream<string> {
+    return link$.mapTo(path);
 }
