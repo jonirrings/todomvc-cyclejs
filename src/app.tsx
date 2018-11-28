@@ -18,8 +18,7 @@ export interface State {
 export function App(sources: Sources<State>): Sinks<State> {
     const match$ = sources.router.define({
         '/counter': isolate(Counter, 'counter'),
-        '/speaker': isolate(Speaker, 'speaker'),
-        '/tasks': isolate(TaskList, 'tasks')
+        '/speaker': isolate(Speaker, 'speaker')
     });
 
     const componentSinks$: Stream<Sinks<State>> = match$
@@ -33,7 +32,7 @@ export function App(sources: Sources<State>): Sinks<State> {
 
     const redirect$: Stream<string> = sources.router.history$
         .filter((l: Location) => l.pathname === '/')
-        .mapTo('/tasks');
+        .mapTo('/counter');
 
     const sinks = extractSinks(componentSinks$, driverNames);
     return {

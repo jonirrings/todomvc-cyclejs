@@ -50,12 +50,7 @@ function renderMainSection(todosData: State): VNode {
         input('.toggle-all', {
             props: { type: 'checkbox', checked: allCompleted }
         }),
-        ul(
-            '.todo-list',
-            todosData.list
-                .filter(todosData.filterFn)
-                .map(data => data.todoItem.DOM)
-        )
+        ul('.todo-list')
     ]);
 }
 

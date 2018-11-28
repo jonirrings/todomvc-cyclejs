@@ -1,5 +1,4 @@
 import xs, { Stream } from 'xstream';
-import dropRepeats from 'xstream/extra/dropRepeats';
 import {
     anchorExtractor,
     textBoxExtractor,
@@ -12,18 +11,7 @@ import { Action } from './interfaces';
 import { GenericInput } from '@cycle/history';
 
 // THE INTENT FOR THE LIST
-export default function intent(
-    DOM: DOMSource,
-    router: Stream<GenericInput>
-): Stream<Action> {
-    // THE ROUTE STREAM
-    // A stream that provides the path whenever the route changes.
-
-    const routerAction$ = router
-        .startWith({ type: 'push', pathname: '/tasks' })
-        .map(location => location.pathname)
-        .compose(dropRepeats())
-        .map(payload => ({ type: 'changeRoute', payload }));
+export default function intent(DOM: DOMSource): Stream<Action> {
     // THE URL STREAM
     // A stream of URL clicks in the app
     const anchorAction$ = DOM.select('a')
@@ -64,7 +52,6 @@ export default function intent(
         .events('click')
         .mapTo({ type: 'deleteCompleteds' });
     return xs.merge(
-        routerAction$,
         anchorAction$,
         clearAction$,
         insertAction$,

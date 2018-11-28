@@ -3,6 +3,12 @@ import { Action, State as TaskState } from '../Task/interfaces';
 import { State } from './interfaces';
 import { Reducer } from '@cycle/state';
 
+const defaultState: State = {
+    list: [],
+    filter: '',
+    filterFn: () => true
+};
+
 // A helper function that provides filter functions
 // depending on the route value.
 function getFilterFn(route: string): (task: TaskState) => boolean {
@@ -22,19 +28,13 @@ function getFilterFn(route: string): (task: TaskState) => boolean {
 // todosData (the state) and return a new version of todosData.
 // THIS IS THE MODEL FUNCTION
 // It expects the actions coming in from the sources
-function model(
-    action$: Stream<Action>,
-    sourceTodosData$: Stream<State>
-): Stream<Reducer<State>> {
+function model(action$: Stream<Action>): Stream<Reducer<State>> {
     // THE BUSINESS LOGIC
     // Actions are passed to the `makeReducer$` function
     // which creates a stream of reducer functions that needs
     // to be applied on the todoData when an action happens.
-    const init$ = sourceTodosData$.map(
-        sourceTodosData =>
-            function(prevState: State): State {
-                return prevState === undefined ? sourceTodosData : prevState;
-            }
+    const init$ = xs.of<Reducer<State>>(prevState =>
+        prevState ? defaultState : prevState
     );
     const clearInputReducer$ = action$
         .filter(a => a.type === 'clearInput')

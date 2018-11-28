@@ -18,5 +18,5 @@ export interface TaskSource<S> extends Sources<S> {
 }
 
 export interface TaskSinks<S> extends Sinks<S> {
-    action?: Stream<any>;
+    action: Stream<any>;
 }

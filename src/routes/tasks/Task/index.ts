@@ -9,13 +9,13 @@ import { State, TaskSinks, TaskSource } from './interfaces';
 // structured with the MVI-pattern.
 function Task({ DOM, state, action }: TaskSource<State>): TaskSinks<State> {
     const action$ = intent(DOM, action);
-    const state$ = model(action$);
+    const reducer$ = model(action$);
     const vtree$ = view(state.stream);
 
     return {
         DOM: vtree$,
         action: action$,
-        state: state$
+        state: reducer$
     };
 }
 
