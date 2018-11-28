@@ -1,16 +1,15 @@
 import xs, { Stream } from 'xstream';
-import { Action, State as TaskState } from '../Task/interfaces';
+import { Action, TaskState } from '../Task/interfaces';
 import { State } from './interfaces';
 import { Reducer } from '@cycle/state';
 
 const defaultState: State = {
+    inputValue: '',
     list: [],
     filter: '',
     filterFn: () => true
 };
 
-// A helper function that provides filter functions
-// depending on the route value.
 function getFilterFn(route: string): (task: TaskState) => boolean {
     switch (route) {
         case '/active':
@@ -22,17 +21,7 @@ function getFilterFn(route: string): (task: TaskState) => boolean {
     }
 }
 
-// MAKE REDUCER STREAM
-// A function that takes the actions on the task list
-// and returns a stream of "reducers": functions that expect the current
-// todosData (the state) and return a new version of todosData.
-// THIS IS THE MODEL FUNCTION
-// It expects the actions coming in from the sources
 function model(action$: Stream<Action>): Stream<Reducer<State>> {
-    // THE BUSINESS LOGIC
-    // Actions are passed to the `makeReducer$` function
-    // which creates a stream of reducer functions that needs
-    // to be applied on the todoData when an action happens.
     const init$ = xs.of<Reducer<State>>(prevState =>
         prevState ? defaultState : prevState
     );
@@ -54,7 +43,6 @@ function model(action$: Stream<Action>): Stream<Reducer<State>> {
                 return todosData;
             };
         });
-
     return xs.merge(init$, clearInputReducer$, changeRouteReducer$);
 }
 

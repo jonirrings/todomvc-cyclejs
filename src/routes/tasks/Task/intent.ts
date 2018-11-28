@@ -6,14 +6,14 @@ import {
     textBoxExtractor
 } from '../utils';
 
-import { Action, State, TaskSource } from './interfaces';
+import { Action } from './interfaces';
 import { DOMSource } from '@cycle/dom';
 
 // THE TASK ITEM INTENT
 // This intent function returns a stream of all the different,
 // actions that can be taken on a task.
 
-function intent(DOM: DOMSource, action$: Stream<Action>): Stream<Action> {
+function intent(DOM: DOMSource): Stream<Action> {
     // THE INTENT MERGE
     // Merge all actions into one stream.
     return xs.merge(
@@ -27,9 +27,6 @@ function intent(DOM: DOMSource, action$: Stream<Action>): Stream<Action> {
             .events('change')
             .map(checkBoxExtractor)
             .map(payload => ({ type: 'toggle', payload })),
-        action$
-            .filter(action => action.type === 'toggleAll')
-            .map(action => ({ ...action, type: 'toggle' })),
 
         // THE START EDIT ACTION STREAM
         DOM.select('label')

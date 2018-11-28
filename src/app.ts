@@ -3,7 +3,7 @@ import { extractSinks } from 'cyclejs-utils';
 import isolate from '@cycle/isolate';
 
 import { driverNames } from './drivers';
-import { Sources, Sinks, Reducer, Component } from './interfaces';
+import { Sources, Sinks, Component } from './interfaces';
 
 import { Counter, State as CounterState } from './routes/counter';
 import { Speaker, State as SpeakerState } from './routes/speaker';
@@ -18,7 +18,8 @@ export interface State {
 export function App(sources: Sources<State>): Sinks<State> {
     const match$ = sources.router.define({
         '/counter': isolate(Counter, 'counter'),
-        '/speaker': isolate(Speaker, 'speaker')
+        '/speaker': isolate(Speaker, 'speaker'),
+        '/tasks': isolate(TaskList, 'tasks')
     });
 
     const componentSinks$: Stream<Sinks<State>> = match$
@@ -32,7 +33,7 @@ export function App(sources: Sources<State>): Sinks<State> {
 
     const redirect$: Stream<string> = sources.router.history$
         .filter((l: Location) => l.pathname === '/')
-        .mapTo('/counter');
+        .mapTo('/tasks');
 
     const sinks = extractSinks(componentSinks$, driverNames);
     return {

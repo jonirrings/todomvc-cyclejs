@@ -1,9 +1,9 @@
 import { button, div, input, label, li, VNode } from '@cycle/dom';
-import { State } from './interfaces';
+import { TaskState } from './interfaces';
 import { Stream } from 'xstream';
 
-function view(state$: Stream<State>): Stream<VNode> {
-    return state$.map(({ title, completed, editing }: State) => {
+function view(state$: Stream<TaskState>): Stream<VNode> {
+    return state$.map(({ title, completed, editing }: TaskState) => {
         const todoRootClasses = {
             completed,
             editing

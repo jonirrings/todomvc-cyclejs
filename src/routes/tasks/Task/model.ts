@@ -1,20 +1,20 @@
 import xs, { Stream } from 'xstream';
-import { Action, State } from './interfaces';
+import { Action, TaskState } from './interfaces';
 import { Reducer } from '@cycle/state';
 import { id } from '../utils';
 
-function blankTask(): State {
+function blankTask(): TaskState {
     return { key: id(), title: '', completed: false };
 }
 
-function model(action$: Stream<Action>): Stream<Reducer<State>> {
-    const init$ = xs.of<Reducer<State>>(prevState =>
+function model(action$: Stream<Action>): Stream<Reducer<TaskState>> {
+    const init$ = xs.of<Reducer<TaskState>>(prevState =>
         prevState === undefined ? blankTask() : prevState
     );
 
     const startEditReducer$ = action$
         .filter(action => action.type === 'startEdit')
-        .mapTo(function startEditReducer(data: State): State {
+        .mapTo(function startEditReducer(data: TaskState): TaskState {
             return {
                 ...data,
                 editing: true
@@ -25,7 +25,7 @@ function model(action$: Stream<Action>): Stream<Reducer<State>> {
         .filter(action => action.type === 'doneEdit')
         .map(
             action =>
-                function doneEditReducer(data: State): State {
+                function doneEditReducer(data: TaskState): TaskState {
                     return {
                         ...data,
                         title: action.payload,
@@ -36,7 +36,7 @@ function model(action$: Stream<Action>): Stream<Reducer<State>> {
 
     const cancelEditReducer$ = action$
         .filter(action => action.type === 'cancelEdit')
-        .mapTo(function cancelEditReducer(data: State): State {
+        .mapTo(function cancelEditReducer(data: TaskState): TaskState {
             return {
                 ...data,
                 editing: false
@@ -47,7 +47,7 @@ function model(action$: Stream<Action>): Stream<Reducer<State>> {
         .filter(action => action.type === 'toggle')
         .map(
             action =>
-                function toggleReducer(data: State): State {
+                function toggleReducer(data: TaskState): TaskState {
                     return {
                         ...data,
                         completed: action.payload

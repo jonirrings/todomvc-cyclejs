@@ -15,9 +15,9 @@ import {
 } from '@cycle/dom';
 
 import { State } from './interfaces';
-import { Stream } from 'xstream';
+import xs, { Stream } from 'xstream';
 
-function renderHeader(): VNode {
+function renderHeader(state: State): VNode {
     return header('.header', [
         h1('todos'),
         input('.new-todo', {
@@ -25,21 +25,14 @@ function renderHeader(): VNode {
                 type: 'text',
                 placeholder: 'What needs to be done?',
                 autofocus: true,
-                name: 'newTodo'
-            },
-            hook: {
-                update: (
-                    oldVNode: VNode,
-                    { elm }: { elm: HTMLInputElement }
-                ) => {
-                    elm.value = '';
-                }
+                name: 'newTodo',
+                value: state.inputValue
             }
         })
     ]);
 }
 
-function renderMainSection(todosData: State): VNode {
+function renderMainSection(todosData: State, listVDom: VNode): VNode {
     const allCompleted = todosData.list.reduce(
         (x: boolean, y) => x && y.completed,
         true
@@ -50,7 +43,7 @@ function renderMainSection(todosData: State): VNode {
         input('.toggle-all', {
             props: { type: 'checkbox', checked: allCompleted }
         }),
-        ul('.todo-list')
+        listVDom
     ]);
 }
 
@@ -107,8 +100,17 @@ function renderFooter(todosData: State): VNode {
 // from the model function and turns it into a
 // virtual DOM stream that is then ultimately returned into
 // the DOM sink in the index.js.
-export default function view(todos$: Stream<State>): Stream<VNode> {
-    return todos$.map(todos =>
-        div([renderHeader(), renderMainSection(todos), renderFooter(todos)])
-    );
+export default function view(
+    state$: Stream<State>,
+    listVDom$: Stream<VNode>
+): Stream<VNode> {
+    return xs
+        .combine(state$, listVDom$)
+        .map(([state, listVDom]) =>
+            div([
+                renderHeader(state),
+                renderMainSection(state, listVDom),
+                renderFooter(state)
+            ])
+        );
 }
