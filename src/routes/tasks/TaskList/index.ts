@@ -36,7 +36,7 @@ export function TaskList(sources: Sources<State>): Sinks<State> {
 
     const listSinks = isolate(List, { state: listLens })(sources);
     const listVDom$ = listSinks.DOM;
-    const listReducer$ = listSinks.onion;
+    const listReducer$ = listSinks.state;
 
     const vdom$ = view(state$, listVDom$);
     const reducer$ = xs.merge(parentReducer$, listReducer$) as Stream<
