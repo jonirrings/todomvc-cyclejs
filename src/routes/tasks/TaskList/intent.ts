@@ -15,6 +15,10 @@ export default function intent(DOM: DOMSource): Stream<Action> {
         .events('click')
         .map(event => anchorExtractor(event).replace('#', ''))
         .map(payload => ({ type: 'url', payload }));
+    const updateAction$ = DOM.select('.new-todo')
+        .events('input')
+        .map(ev => textBoxExtractor(ev))
+        .map((payload: string) => ({ type: 'updateInput', payload }));
     const clearAction$ = DOM.select('.new-todo')
         .events('keydown')
         .filter(ev => ev.keyCode === ESC_KEY)
@@ -36,6 +40,7 @@ export default function intent(DOM: DOMSource): Stream<Action> {
         .mapTo({ type: 'deleteCompleteds' });
     return xs.merge(
         anchorAction$,
+        updateAction$,
         clearAction$,
         insertAction$,
         toggleAction$,

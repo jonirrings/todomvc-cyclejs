@@ -48,5 +48,3 @@ export function TaskList(sources: Sources<State>): Sinks<State> {
         state: reducer$
     };
 }
-
-export default TaskList;

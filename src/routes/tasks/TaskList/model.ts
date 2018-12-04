@@ -2,6 +2,7 @@ import xs, { Stream } from 'xstream';
 import { Action, TaskState } from '../Task/interfaces';
 import { State } from './interfaces';
 import { Reducer } from '@cycle/state';
+import { id } from '../utils';
 
 const defaultState: State = {
     inputValue: '',
@@ -22,13 +23,24 @@ function getFilterFn(route: string): (task: TaskState) => boolean {
 }
 
 function model(action$: Stream<Action>): Stream<Reducer<State>> {
+    const cancelInputAction$ = action$.filter(a => a.type === 'clearInput');
+    const insertTodoAction$ = action$.filter(a => a.type === 'insertTodo');
+    const updateInputAction$ = action$.filter(a => a.type === 'updateInput');
     const init$ = xs.of<Reducer<State>>(prevState =>
-        prevState ? defaultState : prevState
+        prevState ? prevState : defaultState
     );
-    const clearInputReducer$ = action$
-        .filter(a => a.type === 'clearInput')
-        .mapTo(function clearInputReducer(todosData: State): State {
-            return todosData;
+
+    const updateInputValueReducer$ = updateInputAction$.map(
+        a =>
+            function updateInputValue(prevState: State): State {
+                return { ...prevState, inputValue: a.payload };
+            }
+    );
+
+    const clearInputReducer$ = xs
+        .merge(cancelInputAction$, insertTodoAction$)
+        .mapTo(function clearInputReducer(prevState: State): State {
+            return { ...prevState, inputValue: '' };
         });
 
     const changeRouteReducer$ = action$
@@ -43,7 +55,28 @@ function model(action$: Stream<Action>): Stream<Reducer<State>> {
                 return todosData;
             };
         });
-    return xs.merge(init$, clearInputReducer$, changeRouteReducer$);
+    const insertTodoReducer$ = insertTodoAction$.map(
+        a =>
+            function insertTodoReducer(prevState: State): State {
+                const newTodo = {
+                    key: id(),
+                    title: a.payload,
+                    completed: false,
+                    editing: false
+                };
+                return {
+                    ...prevState,
+                    list: prevState.list.concat(newTodo)
+                };
+            }
+    );
+    return xs.merge(
+        init$,
+        clearInputReducer$,
+        updateInputValueReducer$,
+        changeRouteReducer$,
+        insertTodoReducer$
+    );
 }
 
 export default model;

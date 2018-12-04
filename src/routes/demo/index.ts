@@ -4,7 +4,7 @@ import { VNode, DOMSource, textarea, div, button, span } from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import { List } from './List';
 import { State as RowState } from './Row';
-import { id } from '../tasks/utils';
+import { id, redirect } from '../tasks/utils';
 
 export interface State {
     text: string;
@@ -14,6 +14,7 @@ export interface State {
 interface DOMIntent {
     updateText$: Stream<string>;
     createOne$: Stream<null>;
+    link$: Stream<null>;
 }
 
 const defaultState: State = {
@@ -25,12 +26,13 @@ const listLens = {
 };
 
 export function Demo({ DOM, state }: Sources<State>): Sinks<State> {
-    const { updateText$, createOne$ }: DOMIntent = intent(DOM);
+    const { updateText$, createOne$, link$ }: DOMIntent = intent(DOM);
     const listSinks = isolate(List, { state: listLens })({ DOM, state });
     const listVDom$ = listSinks.DOM;
     return {
         DOM: view(state.stream, listVDom$),
-        state: model(updateText$, createOne$)
+        state: model(updateText$, createOne$),
+        router: redirect(link$, '/tasks')
     };
 }
 
@@ -41,9 +43,13 @@ function intent(DOM: DOMSource): DOMIntent {
     const createOne$ = DOM.select('#create')
         .events('click')
         .mapTo(null);
+    const link$ = DOM.select('#nav')
+        .events('click')
+        .mapTo(null);
     return {
         updateText$,
-        createOne$
+        createOne$,
+        link$
     };
 }
 
@@ -54,12 +60,10 @@ function view(state$: Stream<State>, listVDom$: Stream<VNode>): Stream<VNode> {
                 attrs: { id: 'text', rows: 3 },
                 props: { value: text }
             }),
-            button(
-                {
-                    attrs: { id: 'create', type: 'button' }
-                },
-                ['Create One!']
-            ),
+            button({ attrs: { id: 'create', type: 'button' } }, [
+                'Create One!'
+            ]),
+            button({ attrs: { id: 'nav', type: 'button' } }, ['Goto Tasks']),
             list
         ])
     );
