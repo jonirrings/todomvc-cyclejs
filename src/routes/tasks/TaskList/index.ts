@@ -19,8 +19,12 @@ export const listLens = {
             .map(task => nextFilteredList.find(t => t.key === task.key) || task)
             .filter(
                 task =>
-                    prevFilteredList.some(t => t.key === task.key) &&
-                    nextFilteredList.some(t => t.key === task.key)
+                    prevFilteredList.some(
+                        t => t.key === task.key && !task.destroyed
+                    ) &&
+                    nextFilteredList.some(
+                        t => t.key === task.key && !task.destroyed
+                    )
             );
         return {
             ...state,

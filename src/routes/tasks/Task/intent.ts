@@ -40,7 +40,7 @@ function intent(DOM: DOMSource): DOMIntent {
         .events('keyup')
         .filter(ev => ev.keyCode === ENTER_KEY)
         .compose(s => xs.merge(s, DOM.select('.edit').events('blur')))
-        .map(ev => ({ title: textBoxExtractor(ev), type: 'doneEdit' }));
+        .map(ev => ({ payload: textBoxExtractor(ev), type: 'doneEdit' }));
     return {
         destroyAction$,
         toggleAction$,

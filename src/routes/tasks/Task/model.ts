@@ -70,7 +70,8 @@ function model({
         startEditReducer$,
         doneEditReducer$,
         cancelEditReducer$,
-        toggleReducer$
+        toggleReducer$,
+        destroyReducer$
     );
 }
 
