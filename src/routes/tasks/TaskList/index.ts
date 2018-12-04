@@ -31,17 +31,15 @@ export const listLens = {
 
 export function TaskList(sources: Sources<State>): Sinks<State> {
     const state$ = sources.state.stream;
-    const actions = intent(sources.DOM);
-    const parentReducer$ = model(actions);
+    const action$ = intent(sources.DOM);
+    const parentReducer$ = model(action$);
 
     const listSinks = isolate(List, { state: listLens })(sources);
     const listVDom$ = listSinks.DOM;
-    const listReducer$ = listSinks.state;
+    const listReducer$ = listSinks.state as Stream<Reducer<State>>;
 
     const vdom$ = view(state$, listVDom$);
-    const reducer$ = xs.merge(parentReducer$, listReducer$) as Stream<
-        Reducer<State>
-    >;
+    const reducer$ = xs.merge(parentReducer$, listReducer$);
 
     return {
         DOM: vdom$,

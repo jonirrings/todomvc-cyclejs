@@ -3,6 +3,7 @@ export interface TaskState {
     title: string;
     completed: boolean;
     editing?: boolean;
+    destroyed?: boolean;
 }
 
 export interface Action {

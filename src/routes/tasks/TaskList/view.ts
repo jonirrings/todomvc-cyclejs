@@ -6,6 +6,7 @@ import {
     h1,
     header,
     input,
+    label,
     li,
     section,
     span,
@@ -40,9 +41,11 @@ function renderMainSection(todosData: State, listVDom: VNode): VNode {
     const sectionStyle = { display: todosData.list.length ? '' : 'none' };
 
     return section('.main', { style: sectionStyle }, [
-        input('.toggle-all', {
+        input({
+            attrs: { class: 'toggle-all', id: 'toggle-all' },
             props: { type: 'checkbox', checked: allCompleted }
         }),
+        label({ attrs: { for: 'toggle-all' } }, ['Mark all as complete']),
         listVDom
     ]);
 }
@@ -51,7 +54,7 @@ function renderFilterButton(
     todosData: State,
     filterTag: string,
     path: string,
-    label: string
+    text: string
 ): VNode {
     return li([
         a(
@@ -59,7 +62,7 @@ function renderFilterButton(
                 props: { href: path },
                 class: { selected: todosData.filter === filterTag }
             },
-            label
+            text
         )
     ]);
 }
