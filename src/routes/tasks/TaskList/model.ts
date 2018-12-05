@@ -4,6 +4,7 @@ import { State } from './interfaces';
 import { Reducer } from '@cycle/state';
 import { id } from '../utils';
 import { DOMIntent } from './intent';
+import { ResponseCollection } from '@cycle/storage';
 
 const defaultState: State = {
     inputValue: '',
@@ -23,17 +24,28 @@ function getFilterFn(route: string): (task: TaskState) => boolean {
     }
 }
 
-function model({
-    anchorAction$,
-    updateAction$,
-    cancelAction$,
-    insertAction$,
-    toggleAction$,
-    deleteAction$
-}: DOMIntent): Stream<Reducer<State>> {
-    const init$ = xs.of<Reducer<State>>(prevState =>
-        prevState ? prevState : defaultState
-    );
+function model(
+    {
+        anchorAction$,
+        updateAction$,
+        cancelAction$,
+        insertAction$,
+        toggleAction$,
+        deleteAction$
+    }: DOMIntent,
+    storage$: ResponseCollection
+): Stream<Reducer<State>> {
+    const init$ = storage$.local
+        .getItem('todos')
+        .map((todos: string) => (prevState: State) => {
+            if (prevState) {
+                return prevState;
+            }
+            if (todos) {
+                return Object.assign(defaultState, JSON.parse(todos)) as State;
+            }
+            return defaultState;
+        });
 
     const updateInputValueReducer$ = updateAction$.map(
         a =>

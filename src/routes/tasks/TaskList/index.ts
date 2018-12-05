@@ -35,8 +35,9 @@ export const listLens = {
 
 export function TaskList(sources: Sources<State>): Sinks<State> {
     const state$ = sources.state.stream;
+    const storage$ = sources.storage;
     const action$ = intent(sources.DOM);
-    const parentReducer$ = model(action$);
+    const parentReducer$ = model(action$, storage$);
 
     const listSinks = isolate(List, { state: listLens })(sources);
     const listVDom$ = listSinks.DOM;
@@ -47,6 +48,10 @@ export function TaskList(sources: Sources<State>): Sinks<State> {
 
     return {
         DOM: vdom$,
-        state: reducer$
+        state: reducer$,
+        storage: state$.map(preState => ({
+            key: 'todos',
+            value: JSON.stringify(preState)
+        }))
     };
 }
