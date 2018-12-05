@@ -2,6 +2,7 @@ import xs, { Stream } from 'xstream';
 import { VNode, DOMSource } from '@cycle/dom';
 
 import { Sources, Sinks, Reducer } from '../interfaces';
+import { ResponseCollection } from '@cycle/storage';
 
 export interface State {
     count: number;
@@ -16,23 +17,36 @@ interface DOMIntent {
     link$: Stream<null>;
 }
 
-export function Counter({ DOM, state }: Sources<State>): Sinks<State> {
+export function Counter({ DOM, state, storage }: Sources<State>): Sinks<State> {
     const { increment$, decrement$, link$ }: DOMIntent = intent(DOM);
 
     return {
         DOM: view(state.stream),
-        state: model(increment$, decrement$),
-        router: redirect(link$)
+        state: model(increment$, decrement$, storage),
+        router: redirect(link$),
+        storage: state.stream.map(prevState => ({
+            key: 'count',
+            value: prevState.count
+        }))
     };
 }
 
 function model(
     increment$: Stream<any>,
-    decrement$: Stream<any>
+    decrement$: Stream<any>,
+    storage$: ResponseCollection
 ): Stream<Reducer<State>> {
-    const init$ = xs.of<Reducer<State>>(prevState =>
-        prevState === undefined ? defaultState : prevState
-    );
+    const init$ = storage$.local
+        .getItem('count')
+        .map((count: string) => (prevState: State) => {
+            if (prevState) {
+                return prevState;
+            }
+            if (count) {
+                return { count: Number(count) };
+            }
+            return defaultState;
+        });
 
     const addToState: (n: number) => Reducer<State> = n => state => ({
         ...state,
