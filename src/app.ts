@@ -34,13 +34,15 @@ export function App(sources: Sources<State>): Sinks<State> {
             });
         });
 
-    const redirect$: Stream<string> = sources.router.history$
-        .filter((l: Location) => l.pathname === '/')
-        .mapTo('/tasks');
+    const init$: Stream<string> = sources.router.history$
+        .take(1)
+        .map(({ pathname }: Location) =>
+            pathname === '/' ? '/tasks' : pathname
+        );
 
     const sinks = extractSinks(componentSinks$, driverNames);
     return {
         ...sinks,
-        router: xs.merge(redirect$, sinks.router)
+        router: xs.merge(init$, sinks.router)
     };
 }
