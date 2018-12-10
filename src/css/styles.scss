@@ -1,0 +1,13 @@
+@import "~todomvc-common/base.css";
+@import "~todomvc-app-css/index.css";
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+span,
+button,
+textarea {
+    margin: 0.5em;
+}
