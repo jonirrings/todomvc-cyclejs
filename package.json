@@ -58,7 +58,7 @@
     "@cycle/run": "^5.1.0",
     "@cycle/state": "^1.0.0",
     "@cycle/storage": "^5.0.3",
-    "@cycle/time": "^0.18.0",
+    "@cycle/time": "^0.19.0",
     "cyclejs-utils": "^4.0.2",
     "cyclic-router": "^5.1.7",
     "switch-path": "^1.2.0",

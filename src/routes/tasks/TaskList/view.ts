@@ -80,12 +80,17 @@ function renderFooter(todosData: State): VNode {
             ' item' + (amountActive !== 1 ? 's' : '') + ' left'
         ]),
         ul('.filters', [
-            renderFilterButton(todosData, '', '/', 'All'),
-            renderFilterButton(todosData, 'active', '/active', 'Active'),
+            renderFilterButton(todosData, '/tasks', '/tasks', 'All'),
             renderFilterButton(
                 todosData,
-                'completed',
-                '/completed',
+                '/tasks/active',
+                '/tasks/active',
+                'Active'
+            ),
+            renderFilterButton(
+                todosData,
+                '/tasks/completed',
+                '/tasks/completed',
                 'Completed'
             )
         ]),

@@ -15,9 +15,9 @@ const defaultState: State = {
 
 function getFilterFn(route: string): (task: TaskState) => boolean {
     switch (route) {
-        case '/active':
+        case '/tasks/active':
             return (task: TaskState) => task.completed === false;
-        case '/completed':
+        case '/tasks/completed':
             return (task: TaskState) => task.completed === true;
         default:
             return () => true; // allow anything
@@ -62,11 +62,11 @@ function model(
 
     const changeRouteReducer$ = anchorAction$
         .map(a => a.payload)
-        .startWith('/')
         .map(path => {
-            const filterFn = getFilterFn(path);
+            const p = path.replace('http://localhost:8080', '').trim();
+            const filterFn = getFilterFn(p);
             return function changeRouteReducer(todosData: State): State {
-                todosData.filter = path.replace('/', '').trim();
+                todosData.filter = p;
                 todosData.filterFn = filterFn;
                 return todosData;
             };

@@ -12,7 +12,7 @@ export function id(): string {
 export function anchorExtractor(evt: Event): string {
     const target = evt.target as HTMLAnchorElement;
     if (target) {
-        return target.hash;
+        return target.href;
     }
     return '';
 }
