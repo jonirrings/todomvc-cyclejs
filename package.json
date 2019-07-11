@@ -2,16 +2,6 @@
   "name": "todomvc",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "@types/mocha": "^5.2.5",
-    "cycle-scripts-one-fits-all": "7.1.1",
-    "cyclejs-test-helpers": "^4.0.0",
-    "husky": "^1.1.2",
-    "lint-staged": "^8.1.0",
-    "prettier": "^1.14.3",
-    "snabbdom-looks-like": "^1.0.4",
-    "snabbdom-pragma": "^2.8.0"
-  },
   "scripts": {
     "format": "prettier --write '{src,test}/**/*.{js,jsx,ts,tsx}'",
     "start": "cycle-scripts start",
@@ -53,18 +43,28 @@
   },
   "dependencies": {
     "@cycle/dom": "^22.0.0",
-    "@cycle/history": "^7.0.0",
-    "@cycle/isolate": "^4.1.0",
+    "@cycle/history": "7.2.0",
+    "@cycle/isolate": "5.0.0",
     "@cycle/run": "^5.1.0",
-    "@cycle/state": "^1.0.0",
+    "@cycle/state": "1.2.0",
     "@cycle/storage": "^5.0.3",
     "@cycle/time": "^0.19.0",
     "cyclejs-utils": "^4.0.2",
-    "cyclic-router": "^5.1.7",
+    "cyclic-router": "6.0.0",
     "switch-path": "^1.2.0",
-    "todomvc-app-css": "^2.1.2",
+    "todomvc-app-css": "2.2.0",
     "todomvc-common": "^1.0.5",
-    "xstream": "^11.7.0"
+    "xstream": "11.11.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "5.2.7",
+    "cycle-scripts-one-fits-all": "7.2.1",
+    "cyclejs-test-helpers": "^4.0.0",
+    "husky": "3.0.0",
+    "lint-staged": "9.2.0",
+    "prettier": "1.18.2",
+    "snabbdom-looks-like": "^1.0.4",
+    "snabbdom-pragma": "^2.8.0"
   },
   "one-fits-all": true
 }
